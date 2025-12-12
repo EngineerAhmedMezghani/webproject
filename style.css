@@ -1,0 +1,241 @@
+/* --- Variables Globales --- */
+:root {
+    --couleur-fond: #1a1a2e;
+    /* Bleu nuit foncé */
+    --couleur-texte: #ffffff;
+    /* Blanc */
+    --couleur-primaire: #00d4ff;
+    /* Bleu cyan */
+    --couleur-secondaire: #e94560;
+    /* Rouge rosé */
+    --couleur-panneau: #16213e;
+    /* Bleu nuit légèrement plus clair */
+}
+
+/* --- Reset de base --- */
+/* * {
+    margin: 0;
+    padding: 0;
+    box-sizing: border-box;
+} */
+
+body {
+    background-color: var(--couleur-fond);
+    font-family: 'Poppins', sans-serif;/*pour modiier le fond de l'écriture de tout texte dans le body*/
+    /* Police moderne */
+    color: var(--couleur-texte);
+    min-height: 5vh;
+    /* Prend toute la hauteur de l'écran */
+    padding: 20px;
+    display: flex;
+    align-items: center;
+    /* display: flex;
+    align-items: center;
+    pour centrer le body mais il rendent les elemnts placés horizantelemnt
+    c'est pourquoi on utilise flex*/
+    flex-direction: column;
+    /*pour rendre les elements de body */
+}
+
+/* --- Titre --- */
+h1 {
+    margin-bottom: 20px;
+    margin-top:0;
+    color: var(--couleur-primaire);
+    /* text-transform: uppercase; */
+    letter-spacing: 2px;
+    border-bottom: 2px solid var(--couleur-primaire);
+}
+
+/* --- Score --- */
+#score {
+    font-size: 2em;/*surface occupé par la div score*/
+    font-weight: bold;/*taille de la police*/
+    margin-bottom: 30px;
+    padding: 10px 20px;
+    background-color: var(--couleur-panneau);
+    border-radius: 10px;
+    border: 2px solid var(--couleur-primaire);
+}
+
+/* --- Boutons --- */
+.controls {
+    margin-bottom: 30px;
+    display: flex;
+    gap: 20px;
+    /* Espace entre les boutons */
+}
+
+button {
+    padding: 12px 30px;/*1er : dessous et dessus / 2eme : gauche et droite*/
+    font-size: 1.05em;
+    font-weight: bold;/*police*/
+    border: 3px solid var(--couleur-texte);
+    border-radius: 5px;
+    cursor: pointer;
+    transition: transform 0.25s;
+    /* Animation douce au survol */
+}
+
+button:hover:not(:disabled) {
+    /*:not(:disabled) : si le bouton est desactivé , il ne se grossit pas*/
+    transform: scale(1.05);
+    /* Grossit légèrement au survol */
+}
+
+button#start-btn {
+    background-color: var(--couleur-primaire);
+    color: #000;
+}
+
+button#stop-btn {
+    background-color: var(--couleur-secondaire);
+    color: #fff;
+}
+
+button:disabled {
+    opacity: 0.3;
+    /* Plus transparent si désactivé */
+    cursor: not-allowed;
+}
+
+/* --- Zone de Jeu --- */
+.game-container {
+    display: flex;
+    gap: 30px;
+    width: 100%;
+    max-width: 1000px;/*3or4*/
+    height: 500px;
+}
+
+#game-area {
+    flex: 1;
+    /* Prend tout l'espace disponible */
+    position: relative;
+    background-color: var(--couleur-panneau);
+    border: 2px solid var(--couleur-primaire);
+    border-radius: 15px;
+    overflow: hidden;
+    /* tout ce qui dépasse est caché
+    visible (valeur par défaut) → tout reste visible
+    scroll ou auto → ajoute des scrollbars */
+    /* Cache les bulles qui sortent du cadre */
+    cursor: crosshair;
+}
+
+/* --- Barre latérale (Légende) --- */
+.score-sidebar {
+    width: 250px;
+    background-color: var(--couleur-panneau);
+    border: 2px solid var(--couleur-primaire);
+    border-radius: 15px;
+    padding: 20px;
+}
+
+.score-sidebar h3 {
+    text-align: center;
+    margin-bottom: 20px;
+    border-bottom: 2px solid var(--couleur-secondaire);
+    padding-bottom: 10px;
+}
+
+/* --- Élément de la légende --- */
+.bubble-score {
+    display: flex;
+    align-items: center;
+    margin-bottom: 15px;
+    padding: 10px;
+    background-color: rgba(255, 255, 255, 0.05);
+    /* Fond légèrement visible */
+    border-radius: 8px;
+}
+
+.bubble-score-color {
+    width: 20px;
+    height: 20px;
+    border-radius: 10%;
+    margin-right: 15px;
+}
+
+.bubble-info {
+    flex: 1;
+}
+
+.bubble-name {
+    font-weight: bold;
+}
+
+.bubble-score-input {
+    width: 50px;
+    background: transparent;
+    border: none;
+    color: var(--couleur-texte);
+    text-align: right;
+    font-weight: bold;
+}
+
+/* --- Les Bulles --- */
+.bubble {
+    position: absolute;
+    bottom: -50px;/*de haut vers -50 px de la parte de gamecontainer*/
+    /* Commence en bas, hors de l'écran */
+    border-radius: 50%;
+    cursor: pointer;
+    /* Animation définie plus bas */
+    animation: monter 4s linear forwards;
+}
+
+/* Couleurs des bulles */
+.bubble.red,
+.bubble-score-color.red {
+    background-color: #ff4d4d;
+}
+
+.bubble.blue,
+.bubble-score-color.blue {
+    background-color: #4d94ff;
+}
+
+.bubble.green,
+.bubble-score-color.green {
+    background-color: #4dff88;
+}
+
+.bubble.yellow,
+.bubble-score-color.yellow {
+    background-color: #ffff4d;
+}
+
+/* Animation de montée */
+@keyframes monter {
+    0% {transform: translateY(0);}
+    100% {transform: translateY(-800px);}
+    /*ou translateX si on veut aller vers l'axe des x */
+}
+
+/* --- Responsive (Mobile) --- */
+@media (max-width: 768px) {
+    .game-container {
+        flex-direction: column;
+        /* Empile les éléments verticalement */
+        height: auto;
+    }
+
+    #game-area {
+        height: 400px;
+        width: 100%;
+    }
+
+    .score-sidebar {
+        width: 100%;
+        display: flex;
+        flex-wrap: wrap;
+        gap: 10px;
+    }
+
+    .bubble-score {
+        width: 48%;
+        /* 2 colonnes sur mobile */
+        margin-bottom: 0;
+    }
+}
