@@ -188,7 +188,10 @@ function createBubble() {
     bubble.dataset.color = color;
 
     const size = Math.random() * 40 + 30;
-    const x = Math.random() * (window.innerWidth - size);
+    // Récupérer la largeur de la zone de jeu
+    const gameAreaWidth = gameArea.offsetWidth;
+    // Positionner la bulle aléatoirement dans la largeur de la zone de jeu
+    const x = Math.random() * (gameAreaWidth - size);
 
     bubble.classList.add("bubble", color);
     bubble.style.width = size + "px";
@@ -261,6 +264,8 @@ function updateGameSpeed() {
     }
 
     /** Si la vitesse a changé, relancer l’intervalle */
+
+    
     if (oldSpeed !== currentSpeed) {
         clearInterval(gameInterval);
         gameInterval = setInterval(createBubble, currentSpeed);
@@ -306,6 +311,12 @@ function stopGame() {
 
 // Événements
 startBtn.addEventListener('click', startGame);
+// Démarrer le jeu avec la touche 's'
+document.addEventListener('keydown', (event) => {
+    if (event.key.toLowerCase() === 's' && !gameInterval) {
+        startGame();
+    }
+});
 stopBtn.addEventListener('click', stopGame);
 
 document.addEventListener('DOMContentLoaded', displayBubbleValues);
