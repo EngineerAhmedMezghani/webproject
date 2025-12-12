@@ -149,10 +149,12 @@
 let score = 0;
 let gameInterval;
 let currentSpeed = 700;  /** vitesse initiale (en ms) **/
+let isPaused = false;  // État de pause
 
 const scoreDisplay = document.getElementById("score");
 const gameArea = document.getElementById("game-area");
 const startBtn = document.getElementById("start-btn");
+const pauseBtn = document.getElementById("pause-btn");
 const stopBtn = document.getElementById("stop-btn");
 const bubbleValuesElement = document.getElementById("bubble-values");
 
@@ -289,6 +291,7 @@ function startGame() {
     gameInterval = setInterval(createBubble, currentSpeed);
 
     startBtn.disabled = true;
+    pauseBtn.disabled = false;
     stopBtn.disabled = false;
 
     bgMusic.play().catch(err => console.log("Audio bloqué :", err));
@@ -297,8 +300,45 @@ function startGame() {
 /**
  * Arrêter le jeu
  */
+/**
+ * Mettre le jeu en pause ou le reprendre
+ */
+function togglePause() {
+    isPaused = !isPaused;
+    
+    if (isPaused) {
+        // Mettre en pause
+        clearInterval(gameInterval);
+        pauseBtn.textContent = 'Reprendre';
+        
+        // Arrêter les animations des bulles
+        document.querySelectorAll('.bubble').forEach(bubble => {
+            bubble.style.animationPlayState = 'paused';
+        });
+        
+        bgMusic.pause();
+    } else {
+        // Reprendre le jeu
+        gameInterval = setInterval(createBubble, currentSpeed);
+        pauseBtn.textContent = 'Pause';
+        
+        // Reprendre les animations des bulles
+        document.querySelectorAll('.bubble').forEach(bubble => {
+            bubble.style.animationPlayState = 'running';
+        });
+        
+        bgMusic.play().catch(err => console.log("Audio bloqué :", err));
+    }
+}
+
+/**
+ * Arrêter le jeu
+ */
 function stopGame() {
     clearInterval(gameInterval);
+    isPaused = false; // Réinitialiser l'état de pause
+    pauseBtn.textContent = 'Pause'; // Réinitialiser le texte du bouton
+    pauseBtn.disabled = true; // Désactiver le bouton pause
 
     document.querySelectorAll('.bubble').forEach(b => b.remove());
 
@@ -310,13 +350,24 @@ function stopGame() {
 }
 
 // Événements
-startBtn.addEventListener('click', startGame);
+startBtn.addEventListener('click', () => {
+    startGame();
+    pauseBtn.disabled = false; // Activer le bouton pause quand le jeu commence
+});
+
 // Démarrer le jeu avec la touche 's'
 document.addEventListener('keydown', (event) => {
-    if (event.key.toLowerCase() === 's' && !gameInterval) {
+    if (event.key.toLowerCase() === 's' && startBtn.disabled === false) {
         startGame();
+        pauseBtn.disabled = false; // Activer le bouton pause
+    } else if (event.key.toLowerCase() === 'p' && pauseBtn.disabled === false) {
+        togglePause();
+    } else if (event.key.toLowerCase() === 'e' && stopBtn.disabled === false) {
+        stopGame();
     }
 });
+
+pauseBtn.addEventListener('click', togglePause);
 stopBtn.addEventListener('click', stopGame);
 
 document.addEventListener('DOMContentLoaded', displayBubbleValues);

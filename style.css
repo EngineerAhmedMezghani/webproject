@@ -21,7 +21,8 @@
 
 body {
     background-color: var(--couleur-fond);
-    font-family: 'Poppins', sans-serif;/*pour modiier le fond de l'écriture de tout texte dans le body*/
+    font-family: 'Poppins', sans-serif;
+    /*pour modiier le fond de l'écriture de tout texte dans le body*/
     /* Police moderne */
     color: var(--couleur-texte);
     min-height: 5vh;
@@ -40,7 +41,7 @@ body {
 /* --- Titre --- */
 h1 {
     margin-bottom: 20px;
-    margin-top:0;
+    margin-top: 0;
     color: var(--couleur-primaire);
     /* text-transform: uppercase; */
     letter-spacing: 2px;
@@ -49,8 +50,10 @@ h1 {
 
 /* --- Score --- */
 #score {
-    font-size: 2em;/*surface occupé par la div score*/
-    font-weight: bold;/*taille de la police*/
+    font-size: 2em;
+    /*surface occupé par la div score*/
+    font-weight: bold;
+    /*taille de la police*/
     margin-bottom: 30px;
     padding: 10px 20px;
     background-color: var(--couleur-panneau);
@@ -67,9 +70,11 @@ h1 {
 }
 
 button {
-    padding: 12px 30px;/*1er : dessous et dessus / 2eme : gauche et droite*/
+    padding: 12px 30px;
+    /*1er : dessous et dessus / 2eme : gauche et droite*/
     font-size: 1.05em;
-    font-weight: bold;/*police*/
+    font-weight: bold;
+    /*police*/
     border: 3px solid var(--couleur-texte);
     border-radius: 5px;
     cursor: pointer;
@@ -93,6 +98,11 @@ button#stop-btn {
     color: #fff;
 }
 
+button#pause-btn {
+    background-color: #ffd700;
+    color: #000;
+}
+
 button:disabled {
     opacity: 0.3;
     /* Plus transparent si désactivé */
@@ -104,7 +114,8 @@ button:disabled {
     display: flex;
     gap: 30px;
     width: 100%;
-    max-width: 1000px;/*3or4*/
+    max-width: 1000px;
+    /*3or4*/
     height: 400px;
 }
 
@@ -177,12 +188,13 @@ button:disabled {
 /* --- Les Bulles --- */
 .bubble {
     position: absolute;
-    bottom: -50px;/*de haut vers -50 px de la parte de gamecontainer*/
+    bottom: -50px;
+    /*de haut vers -50 px de la parte de gamecontainer*/
     /* Commence en bas, hors de l'écran */
     border-radius: 50%;
     cursor: pointer;
     /* Animation définie plus bas */
-    animation: monter 4s linear forwards;
+    animation: monter 2s linear forwards;
 }
 
 /* Couleurs des bulles */
@@ -208,8 +220,14 @@ button:disabled {
 
 /* Animation de montée */
 @keyframes monter {
-    0% {transform: translateY(0);}
-    100% {transform: translateY(-800px);}
+    0% {
+        transform: translateY(0);
+    }
+
+    100% {
+        transform: translateY(-800px);
+    }
+
     /*ou translateX si on veut aller vers l'axe des x */
 }
 
